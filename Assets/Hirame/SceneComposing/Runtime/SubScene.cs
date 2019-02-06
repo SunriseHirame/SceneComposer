@@ -10,12 +10,13 @@ namespace Hirame.SceneComposing
         public string SceneName;
         public int SceneBuildIndex;
 
-        private string assetGuid;
+        [SerializeField]
+        private string sceneAssetGuid;
 
-        public string AssetGuid
+        public string SceneAssetGuid
         {
-            get => assetGuid;
-            internal set => assetGuid = value;
+            get => sceneAssetGuid;
+            internal set => sceneAssetGuid = value;
         }
     }
 }

@@ -11,13 +11,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_GeneratorAsset: {fileID: 0}
   m_Script: {fileID: 11500000, guid: dced782d35760204994716687033c10b, type: 3}
-  m_Name: TestSceneStack
+  m_Name: TestSceneStack 1
   m_EditorClassIdentifier: 
   masterScene:
     SceneName: 
     SceneBuildIndex: 0
+    sceneAssetGuid: 
   subScenes:
   - SceneName: 
     SceneBuildIndex: 0
+    sceneAssetGuid: 
   - SceneName: 
     SceneBuildIndex: 0
+    sceneAssetGuid: 

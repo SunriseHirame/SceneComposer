@@ -6,7 +6,7 @@ namespace Hirame.SceneComposing.Editor
     {
         public static SceneAsset FindSceneAsset (SubScene subScene)
         {
-            var path = AssetDatabase.GUIDToAssetPath (subScene.AssetGuid);
+            var path = AssetDatabase.GUIDToAssetPath (subScene.SceneAssetGuid);
             return AssetDatabase.LoadAssetAtPath<SceneAsset> (path);
         }
     }
