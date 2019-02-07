@@ -12,13 +12,6 @@ namespace Hirame.SceneComposing
 
         public static void LoadSceneStack (SceneStack stack, bool additive = false)
         {
-#if UNITY_EDITOR
-            if (!EditorApplication.isPlaying)
-            {
-                Internal_LoadInEditorMode (stack, additive);
-                return;
-            }
-#endif
             Internal_LoadScenesAsync (stack, additive);
         }
 
@@ -34,11 +27,5 @@ namespace Hirame.SceneComposing
 //            }
         }
 
-#if UNITY_EDITOR
-        private static void Internal_LoadInEditorMode (SceneStack stack, bool additive = false)
-        {
-            EditorSceneManager.OpenScene (stack.MasterScene.SceneName);
-        }
-#endif
     }
 }

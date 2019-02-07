@@ -18,9 +18,9 @@ MonoBehaviour:
     SceneBuildIndex: 0
     sceneAssetGuid: 9fc0d4010bbf28b4594072e72b8655ab
   subScenes:
-  - SceneName: 
+  - SceneName: SampleScene 1
     SceneBuildIndex: 0
-    sceneAssetGuid: 
-  - SceneName: 
+    sceneAssetGuid: c67753e0562cecb499c7a7a41116581d
+  - SceneName: SampleScene 2
     SceneBuildIndex: 0
-    sceneAssetGuid: 
+    sceneAssetGuid: 2475ccef03e94a64797ff709efdc3d7d
