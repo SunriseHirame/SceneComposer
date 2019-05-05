@@ -10,20 +10,26 @@ namespace Hirame.SceneComposing.Editor
         private SerializedProperty sceneNameProp;
         private SerializedProperty sceneGuidProp;
 
-        public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+        public override void OnGUI (Rect positionRect, SerializedProperty property, GUIContent label)
         {
             var indent = property.depth;
-            position.x += 18 * indent;
-            position.width -= 16 * indent;
 
-            var fullRect = position;
+            positionRect.x += 18 * indent;
+            positionRect.width -= 16 * indent;
 
-            position.height = 16;
+            var fullRect = positionRect;
 
+            positionRect.height = 16;
+
+            
             GUI.Box (fullRect, string.Empty);
-            GUI.Box (position, string.Empty);
+            GUI.Box (positionRect, string.Empty);
 
-            EditorGUI.PropertyField (position, property);
+            var propRect = positionRect;
+            propRect.x -= indent * 16;
+            propRect.width -= indent * 16;
+            
+            EditorGUI.PropertyField (propRect, property);
 
             if (!property.isExpanded)
                 return;
@@ -33,16 +39,16 @@ namespace Hirame.SceneComposing.Editor
             var depthOffset = property.depth * 16;
             var labelWidth = EditorGUIUtility.labelWidth - depthOffset;
 
-            var nameRect = position;
+            var nameRect = positionRect;
             nameRect.width -= labelWidth;
             nameRect.x += labelWidth;
-
+            
             // Scene Name
-            EditorGUI.TextField (nameRect, sceneNameProp.displayName, EditorStyles.label);
+            //EditorGUI.TextField (nameRect, sceneNameProp.stringValue, EditorStyles.label);
 
-            position.y += 18;
-            position.height = 16;
-            DrawSceneAssetSelector (position, property, depthOffset);
+            positionRect.y += 18;
+            positionRect.height = 16;
+            DrawSceneAssetSelector (positionRect, property, depthOffset);
         }
 
         public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
@@ -58,18 +64,23 @@ namespace Hirame.SceneComposing.Editor
             textRect.width = labelWidth - depthOffset;
 
             var assetRect = position;
-            assetRect.x += labelWidth - depthOffset * 2;
-            assetRect.width = position.width - labelWidth + depthOffset * 2;
+            assetRect.x += labelWidth - depthOffset;
+            assetRect.width = position.width - labelWidth + depthOffset;
 
             EditorGUI.LabelField (textRect, "Scene Asset");
-            
-            sceneGuidProp = property.FindPropertyRelative ("sceneAssetGuid"); 
 
+            sceneGuidProp = property.FindPropertyRelative ("sceneAssetGuid");
             var sceneGuid = sceneGuidProp?.stringValue ?? string.Empty;
             var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset> (AssetDatabase.GUIDToAssetPath (sceneGuid));
             var newSceneAsset = EditorGUI.ObjectField (assetRect, sceneAsset, typeof (SceneAsset), false)
                 as SceneAsset;
 
+            UpdateSceneAssetReferences (sceneAsset, newSceneAsset);
+            property.serializedObject.ApplyModifiedProperties ();
+        }
+
+        private void UpdateSceneAssetReferences (SceneAsset sceneAsset, SceneAsset newSceneAsset)
+        {
             if (sceneAsset == null && newSceneAsset == null)
                 return;
 
@@ -79,9 +90,9 @@ namespace Hirame.SceneComposing.Editor
             var assetPath = AssetDatabase.GetAssetPath (newSceneAsset);
             // ReSharper disable once PossibleNullReferenceException
             sceneGuidProp.stringValue = AssetDatabase.AssetPathToGUID (assetPath);
-            sceneNameProp.stringValue = newSceneAsset?.name;
 
-            property.serializedObject.ApplyModifiedProperties ();
+            if (newSceneAsset)
+                sceneNameProp.stringValue = newSceneAsset.name;
         }
     }
 }
