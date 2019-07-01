@@ -7,12 +7,13 @@ namespace Hirame.SceneComposing.Editor
     [CustomPropertyDrawer (typeof (SubScene))]
     public class SubSceneDrawer : PropertyDrawer
     {
+        private SerializedProperty cachedProp;
         private SerializedProperty sceneNameProp;
         private SerializedProperty sceneGuidProp;
 
         public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
         {
-            var indent = property.depth;
+            var indent = EditorGUI.indentLevel;
             position.x += 18 * indent;
             position.width -= 16 * indent;
 
@@ -54,12 +55,12 @@ namespace Hirame.SceneComposing.Editor
         {
             var labelWidth = EditorGUIUtility.labelWidth;
             var textRect = position;
-            textRect.x -= depthOffset;
-            textRect.width = labelWidth - depthOffset;
+            //textRect.x -= depthOffset;
+            textRect.width = labelWidth;
 
             var assetRect = position;
-            assetRect.x += labelWidth - depthOffset * 2;
-            assetRect.width = position.width - labelWidth + depthOffset * 2;
+            assetRect.x += labelWidth;
+            assetRect.width = position.width - labelWidth;
 
             EditorGUI.LabelField (textRect, "Scene Asset");
             
